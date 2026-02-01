@@ -3,7 +3,8 @@
 Dockerfile
 Dockerfile.armhf
 .dockerignore
-docker/
+docker/Dockerfile.*
+docker/docker-compose-*
 .coveragerc
 .eggs
 .github
