@@ -49,9 +49,10 @@ USER ftuser
 COPY --chown=ftuser:ftuser . /freqtrade/
 
 RUN pip install -e . --user --no-cache-dir \
-  && mkdir /freqtrade/user_data/ \
+  && mkdir -p /freqtrade/user_data/ \
+  && chmod +x /freqtrade/docker/entrypoint.sh \
   && freqtrade install-ui
 
-ENTRYPOINT ["freqtrade"]
-# Default to trade mode
-CMD [ "trade" ]
+ENTRYPOINT ["/freqtrade/docker/entrypoint.sh"]
+# Default: trade mode com config padrao
+CMD [ "freqtrade", "trade", "--logfile", "/freqtrade/user_data/logs/freqtrade.log", "--db-url", "sqlite:////freqtrade/user_data/tradesv3.dryrun.sqlite", "--config", "/freqtrade/user_data/config.json", "--strategy", "FreqAIStrategy", "--freqaimodel", "LightGBMRegressor" ]
